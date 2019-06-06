@@ -19,6 +19,8 @@ public class ChrylSystemApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        System.out.println("aa");
+
         return builder.sources(this.getClass());
     }
 }
