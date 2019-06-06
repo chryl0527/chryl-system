@@ -1,0 +1,137 @@
+<configuration scan="true" scanPeriod="10 seconds"
+               debug="true">
+    <property resource="logback.properties"/>
+
+    <contextName>${context.name}</contextName>                         <!-- 本项目的名字 -->
+    <!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,%i索引【从数字0开始递增】,,, -->
+    <!-- appender是configuration的子节点，是负责写日志的组件。 -->
+    <!-- ConsoleAppender：把日志输出到控制台 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${conversion.pattern}</pattern>
+            <!--<pattern>%d %p (%file:%line\)- %m%n</pattern>-->
+            <!-- 控制台也要使用UTF-8，不要使用GBK，否则会中文乱码 -->
+            <!--<charset>UTF-8</charset>-->
+        </encoder>
+    </appender>
+
+    <!-- root file 日志 -->
+    <!-- RollingFileAppender：滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
+    <!-- 以下的大概意思是：1.先按日期存日志，日期变了，将前一天的日志文件名重命名为XXX%日期%索引，新的日志仍然是sys.log -->
+    <!--             2.如果日期没有发生变化，但是当前日志的文件大小超过1KB时，对当前日志进行分割 重命名-->
+    <appender name="root-file-error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 这是日志的目录:此时在本工程下,可以指定目录 -->
+        <!--<File>D:/develop/workSpaces/idea_project/test-map/src/sys.log</File>-->
+        <file>${log.dir}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 活动文件的名字会根据fileNamePattern的值，每隔一段时间改变一次 -->
+            <!-- 文件名：log/sys.2017-12-05.0.log -->
+            <!-- 这是sys.log如果超过maxFileSize时存放的位置和文件命名规则 -->
+            <!--<fileNamePattern>logs/sys.%d.%i.log</fileNamePattern>-->
+            <!--<fileNamePattern>${log.dir}/sys-error.%d.%i.log</fileNamePattern>-->
+            <fileNamePattern>
+                ${log.dir}/error.%d{${rolling.policy.file.name.pattern}}%d{mmss}.%i.log.zip
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- maxFileSize:这是活动文件的大小，默认值是10MB,本篇设置为1KB，只是为了演示 -->
+                <!--<maxFileSize>1KB</maxFileSize>-->
+                <maxFileSize>${max.file.size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->
+            <maxHistory>${max.history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <!-- pattern节点，用来设置日志的输入格式 -->
+            <pattern>${conversion.pattern}</pattern>
+            <!-- 记录日志的编码 -->
+            <!-- 此处设置字符集 -->
+            <!--<charset>UTF-8</charset>-->
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="root-file-warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/sys-warn.%d.%i.log</fileNamePattern>
+            <!--<fileNamePattern>-->
+                <!--${log.dir}/warn.%d{${rolling.policy.file.name.pattern}}%d{mmss}.%i.log.zip-->
+            <!--</fileNamePattern>-->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${max.file.size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${max.history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${conversion.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="root-file-info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/sys-info.%d.%i.log</fileNamePattern>
+            <!--<fileNamePattern>-->
+                <!--${log.dir}/info.%d{${rolling.policy.file.name.pattern}}%d{mmss}.%i.log.zip-->
+            <!--</fileNamePattern>-->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${max.file.size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${max.history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${conversion.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="root-file-debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.dir}/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/sys-debug.%d.%i.log</fileNamePattern>
+            <!--<fileNamePattern>${log.dir}/debug.%d{${rolling.policy.file.name.pattern}}%d{mmss}.%i.log.zip</fileNamePattern>-->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${max.file.size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${max.history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${conversion.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!-- level控制台输出日志级别 -->
+    <root level="${root.level}">
+        <appender-ref ref="console"/>
+        <appender-ref ref="root-file-error"/>
+        <appender-ref ref="root-file-warn"/>
+        <appender-ref ref="root-file-info"/>
+        <appender-ref ref="root-file-debug"/>
+    </root>
+    <!-- 输出到本地 -->
+    <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别
+           不过在application.properties也设置了日志级别时,会以properties为准:logging.level.com.sumsoon=debug
+           这里的level未生效,如果把properties注释,这里的level就会生效(亲测)
+    -->
+    <!-- com.sumsoon为根包，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是DEBUG -->
+    <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
+    <!--<logger name="com.sdsoon" level="debug">-->
+    <!-- 注意这里的syslog是引用的上面的syslog:ref属性 -->
+    <!--<appender-ref ref="syslog"/>-->
+    <!--</logger>-->
+
+</configuration>
