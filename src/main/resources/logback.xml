@@ -28,10 +28,10 @@
             <!-- 文件名：log/sys.2017-12-05.0.log -->
             <!-- 这是sys.log如果超过maxFileSize时存放的位置和文件命名规则 -->
             <!--<fileNamePattern>logs/sys.%d.%i.log</fileNamePattern>-->
-            <!--<fileNamePattern>${log.dir}/sys-error.%d.%i.log</fileNamePattern>-->
-            <fileNamePattern>
-                ${log.dir}/error.%d{${rolling.policy.file.name.pattern}}%d{mmss}.%i.log.zip
-            </fileNamePattern>
+            <fileNamePattern>${log.dir}/sys-error.%d.%i.log</fileNamePattern>
+            <!--<fileNamePattern>-->
+                <!--${log.dir}/error.%d{${rolling.policy.file.name.pattern}}%d{mmss}.%i.log.zip-->
+            <!--</fileNamePattern>-->
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- maxFileSize:这是活动文件的大小，默认值是10MB,本篇设置为1KB，只是为了演示 -->
                 <!--<maxFileSize>1KB</maxFileSize>-->

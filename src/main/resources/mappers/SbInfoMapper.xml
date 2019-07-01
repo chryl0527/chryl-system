@@ -233,19 +233,27 @@
         SELECT
         <include refid="Base_Column_List"/>
         FROM sb_info s
-            <if test="startIndex != null or skip != null">
-                LIMIT
-                <if test="startIndex != null">
-                    #{startIndex}
-                </if>
-                <if test="startIndex != null and skip != null">
-                    ,
-                </if>
-                <if test="skip != null">
-                    #{skip}
-                </if>
+        <if test="startIndex != null or skip != null">
+            LIMIT
+            <if test="startIndex != null">
+                #{startIndex}
             </if>
+            <if test="startIndex != null and skip != null">
+                ,
+            </if>
+            <if test="skip != null">
+                #{skip}
+            </if>
+        </if>
 
     </select>
-
+    <!-- 批量插入设备 -->
+    <insert id="insertSbBatch" parameterType="list">
+        INSERT INTO sb_info
+        (<include refid="Base_Column_List"/>)
+        VALUES
+        <foreach collection="sbs" item="sb" separator=",">
+            (#{sbId},#{sb.userId},#{sb.sbName},#{sb.sbType},#{sb.sbDescription},#{sb.sbProtocolId})
+        </foreach>
+    </insert>
 </mapper>

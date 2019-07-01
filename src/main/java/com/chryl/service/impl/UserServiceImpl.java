@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sun.misc.BASE64Encoder;
 
 import java.io.UnsupportedEncodingException;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserPasswordMapper userPasswordMapper;
 
+    @Transactional
     @Override
     public void register(String userId, String userName, String userPassword, String userPhone) throws UnsupportedEncodingException, NoSuchAlgorithmException, ResponseException {
         if (StringUtils.isEmpty(userName)

@@ -16,4 +16,6 @@ public interface SbProtService {
     void deleteOneSb(String sbId) throws ResponseException;
 
     void updateOneSb(String sbId,String sbName, String sbType, String sbDescription, Integer sbProtocolId) throws ResponseException;
+
+    int insertSbs();
 }

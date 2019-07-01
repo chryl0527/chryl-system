@@ -11,7 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,32 @@ public class SbProtServiceImpl implements SbProtService {
     @Autowired
     private ProtocolInfoMapper protocolInfoMapper;
 
+    @Transactional
+    @Override
+    public int insertSbs() {
+        SbInfo sbInfo = new SbInfo();
+        SbInfo sbInfo2 = new SbInfo();
+        sbInfo.setSbId("0161");
+        sbInfo2.setSbId("053");
+        sbInfo.setSbDescription("暂无描述12");
+        sbInfo2.setSbDescription("暂无描述42");
+        sbInfo.setSbProtocolId(1);
+        sbInfo2.setSbProtocolId(1);
+        sbInfo.setSbName("智能设备7");
+        sbInfo2.setSbName("智能设备3");
+        sbInfo.setUserId("0702d6211eb748d49a8829b3dc36d20d");
+        sbInfo2.setUserId("91d3cd711a594c238478a2103683f4f8");
+        sbInfo.setSbType("测试设备1");
+        sbInfo2.setSbType("测试设备1");
+        ArrayList<SbInfo> sbInfos = new ArrayList<>();
+        sbInfos.add(sbInfo);
+        sbInfos.add(sbInfo2);
+        //批量添加设备
+        int i = sbInfoMapper.insertSbBatch(sbInfos);
+        return i;
+    }
+
+    @Transactional
     @Override
     public void insetSb(SbProtModel sbProtModel) throws ResponseException {
         if (sbProtModel == null) {
@@ -70,6 +98,7 @@ public class SbProtServiceImpl implements SbProtService {
 
     }
 
+    @Transactional
     @Override
     public void deleteOneSb(String sbId) throws ResponseException {
         if (sbId == null) {
@@ -83,6 +112,7 @@ public class SbProtServiceImpl implements SbProtService {
 
     }
 
+    @Transactional
     @Override
     public void updateOneSb(String sbId, String sbName, String sbType, String sbDescription, Integer sbProtocolId) throws ResponseException {
         if (StringUtils.isEmpty(sbId) //
@@ -134,4 +164,6 @@ public class SbProtServiceImpl implements SbProtService {
 
         return protocolInfo;
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.chryl.response.error;
 
 import com.chryl.response.ReturnResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +14,7 @@ import java.util.Map;
 /**
  * Created By Chr on 2019/5/28.
  */
+@Slf4j
 public class BaseController {
 
     //定义ExceptionHandler解决未被Controller层吸收的Exception
@@ -31,6 +33,8 @@ public class BaseController {
         }
         //打印错误信息
         ex.printStackTrace();
+        //记录日志
+        log.error(ex.getMessage());
         return ReturnResult.create(responseData, "fail");
 
     }

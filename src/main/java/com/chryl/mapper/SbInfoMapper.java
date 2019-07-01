@@ -32,4 +32,7 @@ public interface SbInfoMapper {
 
     //#############
     List<SbInfo> queryAll(@Param("startIndex") Integer startIndex, @Param("skip") Integer skip);
+
+    //批量插入sb
+    int insertSbBatch(@Param("sbs") List<SbInfo> sbs);
 }

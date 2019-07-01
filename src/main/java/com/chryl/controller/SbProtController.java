@@ -26,6 +26,13 @@ public class SbProtController extends BaseController {
     @Autowired
     private SbProtService sbProtService;
 
+    //批量添加sb
+    @RequestMapping("/insert/sbs")
+    public ReturnResult insertSbs() {
+        int i = sbProtService.insertSbs();
+        return ReturnResult.create(i);
+    }
+
     //根据协议id添加---也可以根据协议type
     @RequestMapping(value = "/add/{sbId}/{userId}/{sbName}/{sbType}/{sbDescription}/{sbProtocolId}"/*, method = RequestMethod.POST*/)
     public ReturnResult add(@PathVariable("sbId") String sbId,//
