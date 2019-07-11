@@ -35,6 +35,7 @@ public class BaseController {
         ex.printStackTrace();
         //记录日志
         log.error(ex.getMessage());
+        //返回包装类
         return ReturnResult.create(responseData, "fail");
 
     }
