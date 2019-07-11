@@ -37,6 +37,7 @@ public class BaseController {
         log.error(ex.getMessage());
         //返回包装类
         return ReturnResult.create(responseData, "fail");
+//        return ResponseResult.build(,responseData, "fail");
 
     }
 }
