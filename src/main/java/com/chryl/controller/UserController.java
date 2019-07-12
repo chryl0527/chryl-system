@@ -34,6 +34,8 @@ public class UserController extends BaseController {
 
         userService.register(null, userName, userPassword, userPhone);
 
+        //
+//        return ReturnResult.create(HttpStatus.CREATED);
         return ReturnResult.create(null);
     }
 
