@@ -12,6 +12,7 @@ import com.chryl.service.model.UserModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sun.misc.BASE64Encoder;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private UserInfoMapper userInfoMapper;
     @Autowired
     private UserPasswordMapper userPasswordMapper;
+
 
     @Transactional
     @Override
@@ -83,8 +85,20 @@ public class UserServiceImpl implements UserService {
         if (!StringUtils.equals(encryptPassword, userPasswordPo.getEncryptPassword())) {
             throw new ResponseException(EnumError.USER_LOGIN_FAIL);
         }
+        /**
+         * 登陆校验成功
+         */
+
         UserModel userModel = convertFromModelByPo(userInfo, userPasswordPo);
 
+        return userModel;
+    }
+
+    @Override
+    public UserModel selectUserModelByUserId(String userId) {
+        UserInfo userInfo = userInfoMapper.selectByPrimaryKey(userId);
+        UserPassword userPassword = userPasswordMapper.selectByPrimaryKey(userId);
+        UserModel userModel = convertFromModelByPo(userInfo, userPassword);
 
         return userModel;
     }

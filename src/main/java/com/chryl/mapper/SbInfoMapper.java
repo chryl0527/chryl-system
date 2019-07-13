@@ -35,4 +35,7 @@ public interface SbInfoMapper {
 
     //批量插入sb
     int insertSbBatch(@Param("sbs") List<SbInfo> sbs);
+
+    //批量删除sb
+    int deleteSbs(@Param("sbs") String[] strSbIdArray);
 }

@@ -253,7 +253,15 @@
         (<include refid="Base_Column_List"/>)
         VALUES
         <foreach collection="sbs" item="sb" separator=",">
-            (#{sbId},#{sb.userId},#{sb.sbName},#{sb.sbType},#{sb.sbDescription},#{sb.sbProtocolId})
+            (#{sb.sbId},#{sb.userId},#{sb.sbName},#{sb.sbType},#{sb.sbDescription},#{sb.sbProtocolId})
         </foreach>
     </insert>
+    <!-- 批量删除设备 -->
+    <delete id="deleteSbs" parameterType="string">
+        delete from sb_info where sb_id in
+        <foreach collection="sbs" item="sb" index="no" open="("
+                 separator="," close=")">
+            #{sb}
+        </foreach>
+    </delete>
 </mapper>

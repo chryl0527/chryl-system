@@ -80,6 +80,14 @@ public class SbProtController extends BaseController {
         return () -> ReturnResult.create(null);
     }
 
+    //批量删除设备
+    @RequestMapping(value = {"/deleteSbs"})
+    public Callable<ReturnResult> deleteSbs(String[] strSbIdArray) throws ResponseException {
+        strSbIdArray = new String[]{"0161000", "053000"};
+        sbProtService.deleteSbs(strSbIdArray);
+        return () -> ReturnResult.create(null);
+    }
+
     //修改单个设备
     @RequestMapping(value = {"/updateOneSb/{sbId}/{sbName}/{sbType}/{sbDescription}/{sbProtocolId}"})
     public ReturnResult updateOneSb(@PathVariable("sbId") String sbId,//
@@ -89,7 +97,6 @@ public class SbProtController extends BaseController {
                                     @PathVariable("sbProtocolId") String sbProtocolId) throws ResponseException {
 
         sbProtService.updateOneSb(sbId, sbName, sbType, sbDescription, Integer.valueOf(sbProtocolId));
-
         return ReturnResult.create(null);
     }
 

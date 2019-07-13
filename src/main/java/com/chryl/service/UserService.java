@@ -12,7 +12,36 @@ import java.security.NoSuchAlgorithmException;
 public interface UserService {
 
 
+    /**
+     * 注册用户
+     *
+     * @param userId
+     * @param userName
+     * @param userPassword
+     * @param userPhone
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     * @throws ResponseException
+     */
     void register(String userId, String userName, String userPassword, String userPhone) throws UnsupportedEncodingException, NoSuchAlgorithmException, ResponseException;
 
+    /**
+     * 登录验证
+     *
+     * @param userName
+     * @param userPassword 前端输入的密码
+     * @return
+     * @throws ResponseException
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
     UserModel validateLogin(String userName, String userPassword) throws ResponseException, UnsupportedEncodingException, NoSuchAlgorithmException;
+
+    /**
+     * 根据userId
+     *
+     * @param userId
+     * @return
+     */
+    UserModel selectUserModelByUserId(String userId);
 }

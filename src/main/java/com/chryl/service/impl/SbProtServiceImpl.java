@@ -33,24 +33,34 @@ public class SbProtServiceImpl implements SbProtService {
     public int insertSbs() {
         SbInfo sbInfo = new SbInfo();
         SbInfo sbInfo2 = new SbInfo();
-        sbInfo.setSbId("0161");
-        sbInfo2.setSbId("053");
-        sbInfo.setSbDescription("暂无描述12");
-        sbInfo2.setSbDescription("暂无描述42");
+        sbInfo.setSbId("0161000");
+        sbInfo2.setSbId("053000");
+        sbInfo.setSbDescription("暂无描述12000");
+        sbInfo2.setSbDescription("暂无描述42000");
         sbInfo.setSbProtocolId(1);
         sbInfo2.setSbProtocolId(1);
-        sbInfo.setSbName("智能设备7");
-        sbInfo2.setSbName("智能设备3");
+        sbInfo.setSbName("智能设备7000");
+        sbInfo2.setSbName("智能设备3000");
         sbInfo.setUserId("0702d6211eb748d49a8829b3dc36d20d");
         sbInfo2.setUserId("91d3cd711a594c238478a2103683f4f8");
-        sbInfo.setSbType("测试设备1");
-        sbInfo2.setSbType("测试设备1");
+        sbInfo.setSbType("测试设备1000");
+        sbInfo2.setSbType("测试设备1000");
         ArrayList<SbInfo> sbInfos = new ArrayList<>();
         sbInfos.add(sbInfo);
         sbInfos.add(sbInfo2);
         //批量添加设备
         int i = sbInfoMapper.insertSbBatch(sbInfos);
         return i;
+    }
+
+    @Transactional
+    @Override
+    public void deleteSbs(String[] strSbIdArray) throws ResponseException {
+        int i = sbInfoMapper.deleteSbs(strSbIdArray);
+        if (i != 0) {
+            return;
+        }
+        throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR, "批量删除失败");
     }
 
     @Transactional
