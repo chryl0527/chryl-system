@@ -16,7 +16,7 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加拦截的请求，并排除几个不拦截的请求
         registry.addInterceptor(new LoginInterceptor())//实例化
-                .addPathPatterns("/**")//拦截哪些路径("/**":代表拦截所有路径)
+                .addPathPatterns("/**")//拦截哪些路径("/**":代表拦截所有路径);
                 .excludePathPatterns(
                         //登陆页
                         "/index.html", "/", "/user/login/**",
