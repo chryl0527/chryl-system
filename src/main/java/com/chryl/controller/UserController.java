@@ -10,8 +10,13 @@ import com.chryl.service.model.UserModel;
 import com.chryl.service.model.sso.SsoConf;
 import com.chryl.service.model.sso.SsoUser;
 import com.chryl.utils.CookieUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +29,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created By Chr on 2019/5/28.
  */
+@Api(value = "user用户信息", description = "user用户注册/检查首次登陆/登录")
 @RestController
 @RequestMapping("/user")
 public class UserController extends BaseController {
@@ -33,6 +39,12 @@ public class UserController extends BaseController {
     @Autowired
     private SsoService ssoService;
 
+    @ApiOperation(value = "用户注册接口", notes = "用户名,密码,手机号")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "path", name = "userName", value = "用户名", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "path", name = "userPassword", value = "密码", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "path", name = "userPhone", value = "手机号", required = true, dataType = "String")
+    })
     @RequestMapping(value = "/register/{userName}/{userPassword}/{userPhone}"/*, method = RequestMethod.POST*/)
     public ReturnResult register(@PathVariable("userName") String userName,//
                                  @PathVariable("userPassword") String userPassword,//
@@ -46,6 +58,11 @@ public class UserController extends BaseController {
     }
 
     //第一次登陆
+    @ApiOperation(value = "用户登录界面接口", notes = "用户名,密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "path", name = "userName", value = "用户名", required = true, dataType = "String"),
+            @ApiImplicitParam(paramType = "path", name = "userPassword", value = "密码", required = true, dataType = "String")
+    })
     @RequestMapping(value = "/login/{userName}/{userPassword}"/*, method = RequestMethod.PUT*/)
     public ReturnResult login(@PathVariable("userName") String userName,//
                               @PathVariable("userPassword") String userPassword,//
@@ -67,7 +84,8 @@ public class UserController extends BaseController {
     }
 
     //验证是否第二次登陆
-    @RequestMapping("/loginCheck")
+    @ApiOperation(value = "用户登录验证", notes = "从未登录,跳转到登陆页,第二次登陆使用缓存查询")
+    @GetMapping("/loginCheck")
     public ReturnResult loginCheck(HttpServletRequest request,//
                                    HttpServletResponse response) {
         String cookieValue = CookieUtil.getCookieValue(request, SsoConf.SSO_COOKIE_NAME, true);
