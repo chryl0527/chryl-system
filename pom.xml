@@ -30,6 +30,8 @@
             <version>2.0.1</version>
         </dependency>
 
+        <!-- 注意mysql的版本 he mybatisGenerator版本需要的mysql的版本
+         -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -125,7 +127,7 @@
                         <artifactId>mybatis-generator-core</artifactId>
                         <version>1.3.5</version>
                     </dependency>
-                    <!-- 使用的是MySQL -->
+                    <!-- 使用的是MySQL :注意mysql的版本-->
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
