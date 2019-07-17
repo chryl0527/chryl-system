@@ -11,7 +11,7 @@ public enum EnumError implements CommonError {
 
     // 1 开头为通用错误类型：通用错误可以根据业务需求修改，比如一些入参没传需要定义很多错误码，只要定义一个不合法类型，只去改动errorMessage即可
     PARAMETER_VALIDATION_ERROR(10000, "参数不合法"),
-    UNKNOW_ERROR(00001, "其他错误或未知错误"),
+    UNKNOW_ERROR(10001, "其他错误或未知错误"),
 
     // 2 开头为用户信息相关错误
     USER_NOT_EXISTS(20000, "用户不存在"),

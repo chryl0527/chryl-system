@@ -1,6 +1,5 @@
 package com.chryl.config;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -9,7 +8,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * <p>
  * Created By Chr on 2019/7/16.
  */
-@Configuration
+//现不配置
+//@Configuration
 public class MyMvcConfig extends WebMvcConfigurerAdapter {
     // 注册拦截器,注册才生效
     @Override
