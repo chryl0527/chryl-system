@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,8 +54,8 @@ public class UserController extends BaseController {
 
         userService.register(null, userName, userPassword, userPhone);
         //
-//        return ReturnResult.create(HttpStatus.CREATED);
-        return ReturnResult.create(null);
+        return ReturnResult.create(HttpStatus.CREATED);
+//        return ReturnResult.create(null);
     }
 
     //第一次登陆
@@ -89,25 +90,48 @@ public class UserController extends BaseController {
     public ReturnResult loginCheck(HttpServletRequest request,//
                                    HttpServletResponse response) {
         String cookieValue = CookieUtil.getCookieValue(request, SsoConf.SSO_COOKIE_NAME, true);
-        if (cookieValue == null) {
+        if (cookieValue == null) {//no cookie无法验证信息
             //重新返回登录页面
             ReturnResult.create(null);
         }
-        //验证redis
+        //验证redis,更新redis,cookie
         SsoUser ssoUser = ssoService.loginCheck(request, response, cookieValue);
-        if (ssoUser == null) {
-            //重新返回登录页面
-            ReturnResult.create(null);
+        if (ssoUser == null) {//redis为null,查询db
+            String userId = splitInfix(cookieValue);
+            UserModel userModel = userService.selectUserModelByUserId(userId);
+            if (userModel == null) {//db无数据
+                //重新返回登录页面
+                return ReturnResult.create(null);
+            }
+            //sso
+            ssoService.doSso(request, response, userModel);
+            SsoUser ssoUser1 = convertUserModelFromSsoUser(userModel);
+            return ReturnResult.create(ssoUser1);
         }
-        //第二次登陆且身份未过期,免登陆
+        //第二次登陆且cookie,redis身份未过期,免登陆
         UserModel userModel = userService.selectUserModelByUserId(ssoUser.getUserId());
         return ReturnResult.create(userModel);
     }
 
-//    @RequestMapping("/logout/{userId}")
+    //    @RequestMapping("/logout/{userId}")
 //    public ReturnResult logout(HttpServletRequest request, HttpServletResponse response) {
 //        ssoService.logout(request, response);
 //        return ReturnResult.create(null);
 //    }
+    private static String splitInfix(String cookieValue) {
+        return cookieValue.split("#")[1];
 
+    }
+
+    private SsoUser convertUserModelFromSsoUser(UserModel userModel) {
+        if (userModel == null) {
+            return null;
+        }
+        SsoUser ssoUser = new SsoUser();
+        ssoUser.setUserId(userModel.getUserId());
+        ssoUser.setUserName(userModel.getUserName());
+        ssoUser.setExpireMinute(SsoConf.REDIS_EXPIRE_MINUTE);
+        ssoUser.setExpireFreshTime(System.currentTimeMillis());
+        return ssoUser;
+    }
 }

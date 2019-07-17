@@ -30,7 +30,7 @@ public enum EnumError implements CommonError {
 
 
     //4 开头为存储相关错误
-    SSO_CANCLE(4000, "存储redis失败"),
+    SSO_CANCLE(40000, "存储redis失败"),
 
     //
     ;

@@ -38,6 +38,7 @@ public class SbProtController extends BaseController {
     public ReturnResult insertSbs() {
         int i = sbProtService.insertSbs();
         return ReturnResult.create(i);
+//        return ReturnResult.create(HttpStatus.CREATED);
     }
 
     //根据协议id添加---也可以根据协议type
@@ -69,6 +70,7 @@ public class SbProtController extends BaseController {
 
         sbProtService.insetSb(sbProtModel);
 
+//        return ReturnResult.create(HttpStatus.CREATED);
         return ReturnResult.create(null);
     }
 
