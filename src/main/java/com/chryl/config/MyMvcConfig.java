@@ -20,8 +20,10 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
                 .excludePathPatterns(
                         //登陆页
                         "/index.html", "/", "/user/login/**",
+                        //注册页
+                        "/user/register/**",
                         //swagger
-                        "/swagger-ui.html**", "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**"
+                        "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**"
                 );//不拦截哪些路径;
     }
 }
