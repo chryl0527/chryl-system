@@ -4,6 +4,7 @@ import com.chryl.service.model.sso.SsoConf;
 import com.chryl.utils.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +24,10 @@ public class LoginInterceptor implements HandlerInterceptor {
     // 目标方法执行之前
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //判断是否映射到方法,不是就是 请求静态资源,放行
+        if (!(handler instanceof HandlerMethod)) {
+            return true;
+        }
         String url = request.getRequestURI();
         log.debug("访问拦截地址:{}", url);
         /**
