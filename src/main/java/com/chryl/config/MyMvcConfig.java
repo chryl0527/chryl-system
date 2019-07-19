@@ -24,6 +24,10 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
                         "/user/register/**",
                         //swagger
                         "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**"
-                );//不拦截哪些路径;
+                )//不拦截哪些路径;
+
+
+        //
+        ;
     }
 }
