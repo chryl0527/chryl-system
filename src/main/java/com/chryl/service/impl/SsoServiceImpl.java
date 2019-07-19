@@ -41,6 +41,9 @@ public class SsoServiceImpl implements SsoService {
         //存入cookie
         //cookieName:sso_cookie,cookieValue:sso_cookie#userId,timeOut:5天
         String cookieValue = cookieValue(ssoUser.getUserId());
+        /**
+         * cookieValue需要进行加密,不能直接使用userId进行存储和查询
+         */
         CookieUtil.setCookie(request, response,
                 SsoConf.SSO_COOKIE_NAME,//cookieName
                 cookieValue,//cookieValue
