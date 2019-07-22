@@ -61,6 +61,10 @@ public class SsoServiceImpl implements SsoService {
 
         if (ssoUser != null) {
             //剩余过期时间
+            /**
+             * 这样导致 ,2次访问redis,redis压力:
+             * 可以设置redis存储过期时间,只访问一次即可
+             */
             Long expire = redisTemplate.getExpire(redisKey);//秒
             long minuteExpire = expire / 60;//分
             //过期时间过半刷新
