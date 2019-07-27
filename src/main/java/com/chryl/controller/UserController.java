@@ -17,10 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -118,6 +115,15 @@ public class UserController extends BaseController {
 //        ssoService.logout(request, response);
 //        return ReturnResult.create(null);
 //    }
+
+    //测试restful
+    @PostMapping("/testp/{id}/{name}")
+    public ReturnResult show(@PathVariable String id, @PathVariable String name) {
+
+        String str = id + "--" + name;
+        return ReturnResult.create(str);
+    }
+
     private static String splitInfix(String cookieValue) {
         return cookieValue.split("#")[1];
 
