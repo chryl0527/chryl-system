@@ -43,7 +43,7 @@ public class UserController extends BaseController {
             @ApiImplicitParam(paramType = "path", name = "userPassword", value = "密码", required = true, dataType = "String"),
             @ApiImplicitParam(paramType = "path", name = "userPhone", value = "手机号", required = true, dataType = "String")
     })
-    @RequestMapping(value = "/register/{userName}/{userPassword}/{userPhone}"/*, method = RequestMethod.POST*/)
+    @RequestMapping(value = "/register/{userName}/{userPassword}/{userPhone}", method = RequestMethod.POST)
     public ReturnResult register(@PathVariable("userName") String userName,//
                                  @PathVariable("userPassword") String userPassword,//
                                  @PathVariable("userPhone") String userPhone) throws UnsupportedEncodingException, NoSuchAlgorithmException, ResponseException {
@@ -124,6 +124,9 @@ public class UserController extends BaseController {
         return ReturnResult.create(str);
     }
 
+
+
+    //
     private static String splitInfix(String cookieValue) {
         return cookieValue.split("#")[1];
 
