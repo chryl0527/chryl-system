@@ -98,7 +98,7 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.7.0</version>
+            <version>2.10.0</version>
         </dependency>
         <!--JWT(Json Web Token)登录支持-->
         <dependency>
